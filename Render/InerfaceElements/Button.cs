@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using MonopolyGame.GameObjects;
+using MonopolyGame.Render.EventArgsExtension;
 
 namespace MonopolyGame.Render.InerfaceElements;
 
@@ -6,7 +7,7 @@ public class Button : IRenderable
 {
     public string? Name { get; set; }
     public (int x, int y) Position { get; set; }
-    public event EventHandler? Click;
+    public event EventHandler<PawnPropertyEventArgs>? Click;
     public bool Selected = false;
 
     public IRenderable SetPosition(int x, int y)
@@ -33,6 +34,11 @@ public class Button : IRenderable
 
     public void OnClick()
     {
-        Click?.Invoke(this, EventArgs.Empty);
+        Click?.Invoke(this, null);
+    }
+
+    public void OnClick(Property property)
+    {
+        Click?.Invoke(this, new PawnPropertyEventArgs(property));
     }
 }

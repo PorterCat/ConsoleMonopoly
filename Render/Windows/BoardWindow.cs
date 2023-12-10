@@ -7,9 +7,9 @@ public class BoardWindow : IRenderable
 {
     private List<BoardField> _fields;
 
-    public BoardWindow(Board board)
+    public BoardWindow()
     {
-        _fields = board.BoardFields;
+        _fields = Board.BoardFields;
     }
 
     public void Render()

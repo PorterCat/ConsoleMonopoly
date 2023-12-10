@@ -4,6 +4,6 @@ public class TaxField : BoardField
 {
     public void PayTax(Player player)
     {
-        player.Balance -= 200;
+        player.Balance -= 150;
     }
 }

@@ -16,21 +16,18 @@ public class CreatePlayerWindow : IRenderable
         var button1 = new Button()
         {
             Name = "Введите имя",
-            Selected = true,
         };
         button1.Click += SetName;
 
         var button2 = new Button()
         {
             Name = "Введите аватар",
-            Selected = false,
         };
         button2.Click += SetAvatar;
 
         var button3 = new Button()
         {
             Name = "Готово",
-            Selected = false,
         };
         button3.Click += Exit;
 
@@ -44,6 +41,16 @@ public class CreatePlayerWindow : IRenderable
         while( _isInitilized )
         {
             Console.WriteLine("Меню создания игрока");
+            if(!string.IsNullOrEmpty(_player.Name))
+            {
+                Console.SetCursorPosition(20, 2);
+                Console.WriteLine("[V]");
+            }
+            if (!string.IsNullOrEmpty(_player.Avatar))
+            {
+                Console.SetCursorPosition(20, 4);
+                Console.WriteLine("[V]");
+            }
             _menuButtons.RenderWithDots((4, 2), 2);
         }
         Console.Clear();

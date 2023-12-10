@@ -49,12 +49,13 @@ public abstract class BoardField
         if(PlayersOnTheField != null)
         {
             Console.SetCursorPosition(pointer.x + 8, pointer.y + 3);
-            string avatars = string.Empty;
-            foreach(var player in PlayersOnTheField)
+
+            foreach (var player in PlayersOnTheField)
             {
-                avatars += player.Avatar;
+                Console.ForegroundColor = player.Color;
+                Console.Write(player.Avatar);
             }
-            Console.Write(avatars);
+            Console.ResetColor();
         }
     }
 }

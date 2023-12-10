@@ -1,18 +1,11 @@
 ﻿namespace MonopolyGame.GameObjects;
 
-public class Dice
+public static class Dice
 {
-    private Random _random { get; set; }
-    private uint _sides { get; set; }
+    private static Random _random = new Random();
 
-    public Dice(uint sides)
+    public static int Roll()
     {
-        _random = new Random();
-        _sides = sides;
-    }
-
-    public int Roll()
-    {
-        return _random.Next(2, (int)_sides+1);
+        return _random.Next(1, 7);
     }
 }
