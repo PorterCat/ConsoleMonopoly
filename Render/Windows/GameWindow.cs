@@ -244,9 +244,7 @@ public class GameWindow : IRenderable
     {
         Console.Clear();
         EventLoggerWindow.Render();
-        _boardWindow.Render();
         _player.PawnBuyProperty();
-        _menuActions.RemoveAt(_menuActions.Count - 2);
     }
 
     void Exit(object sender, EventArgs e)

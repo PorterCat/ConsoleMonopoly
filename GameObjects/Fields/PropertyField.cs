@@ -31,7 +31,7 @@ public class PropertyField : BoardField
 
         if( Property.Owner != null ) 
         {
-            if (Property.Owner.pawnedProperty.Count > 0)
+            if (Property.Owner.pawnedProperty.ContainsKey(Property.Index))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.SetCursorPosition(Position.x + 1, Position.y + 2);

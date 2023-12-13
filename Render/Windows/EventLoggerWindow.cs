@@ -7,8 +7,8 @@ public static class EventLoggerWindow
     
     public static void Render()
     {
-        if( Events.Count > 33 ) 
-        {
+        while(Events.Count > 33)
+        { 
             Events.Dequeue();
         }
 

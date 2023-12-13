@@ -13,6 +13,8 @@ internal class Program
             Console.SetWindowSize(200, 50);
         }
 
+        Console.ForegroundColor = ConsoleColor.White;
+
         Console.CursorVisible = false;
 
         var game = new GameController();
