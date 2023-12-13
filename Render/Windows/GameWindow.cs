@@ -10,10 +10,10 @@ public class GameWindow : IRenderable
     private List<Button> _menuActions;
     private BoardWindow _boardWindow;
 
-    Button buttonDie;
-    Button buttonBuy;
-    Button pawnBuyButton;
-    Button finishButton;
+    private Button buttonDie;
+    private Button buttonBuy;
+    private Button pawnBuyButton;
+    private Button finishButton;
 
     private bool _isInitilized = true;
     private Player _player;
@@ -109,8 +109,6 @@ public class GameWindow : IRenderable
     {
         var result1 = Dice.Roll();
         var result2 = Dice.Roll();
-
-        _player.Move(result1 + result2);
         
         string line = $"Игрок {_player.Name} бросает кубики. Выпало: {result1} и {result2}";
         if (result1 == result2)
@@ -118,6 +116,8 @@ public class GameWindow : IRenderable
             line += $". Дубль: игрок делает ход ещё раз";
             _player.Steps++;
         }
+
+        _player.Move(result1 + result2);
 
         if (_player.Steps > 3)
         {

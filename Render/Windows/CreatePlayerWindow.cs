@@ -96,7 +96,7 @@ public class CreatePlayerWindow : IRenderable
         else
         {
             Console.SetCursorPosition(0, 8);
-            Console.WriteLine($"!Прежде чем нажимать готово, дозаполните информацию о вашем персонаже");
+            Console.WriteLine($"[!] Прежде чем нажимать готово, дозаполните информацию о вашем персонаже");
         }
     }
 

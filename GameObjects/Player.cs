@@ -56,6 +56,12 @@ public class Player
         Properties = new List<Property>();
     }
 
+    public void MakeStep()
+    {
+        var GamePlayerMenu = new GameWindow(this);
+        GamePlayerMenu.Render();
+    }
+
     public void ReducingTerm()
     {
         if(pawnedProperty.Count > 0)

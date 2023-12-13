@@ -17,8 +17,7 @@ internal class Program
 
         Console.CursorVisible = false;
 
-        var game = new GameController();
-        game.StartGame();
+        GameController.StartGame();
 
         Console.ReadLine();
     }

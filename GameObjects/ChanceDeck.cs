@@ -4,10 +4,11 @@ public static class ChanceDeck
 {
     private static List<ChanceCard> _chanceCards = new List<ChanceCard>()
     {
-            new ChanceCard("Наследство от деда! Получите 100$", () => AddToBalance(100)),
+            /*new ChanceCard("Наследство от деда! Получите 100$", () => AddToBalance(100)),
             new ChanceCard("У вас день рождение! Получите 10$", () => AddToBalance(10)),
             new ChanceCard("Продлите страховку! Заплатите 50$", () => TakeFromBalance(50)),
-            new ChanceCard("Заплатите разработчику ПО зарплату уже наконец! С вас 50$", () => TakeFromBalance(50)),
+            new ChanceCard("Заплатите разработчику ПО зарплату уже наконец! С вас 50$", () => TakeFromBalance(50)),*/
+            new ChanceCard("Вы победили в лотерею, но забыли выключить утюг дома :("),
     };
 
     private static Player _player;
@@ -44,6 +45,12 @@ public static class ChanceDeck
         { 
             Text = text;
             Event = eventAction;
+        }
+
+        public ChanceCard(string text)
+        {
+            Text = text;
+            Event = null;
         }
     }
 }

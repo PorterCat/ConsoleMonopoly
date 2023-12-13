@@ -1,53 +1,53 @@
 ﻿using MonopolyGame.GameObjects;
 using MonopolyGame.Render.Windows;
+using System.Xml.Linq;
 
 namespace MonopolyGame.Controller;
 
-public class GameController
+public static class GameController
 {
-    private List<Player> _players;
+    public static List<Player> Players;
 
-    private bool _isPlay = true;
+    private static bool _isPlay = true;
 
-    public GameController()
+    public static void StartGame()
     {
-        _players = new List<Player>();
 
-
-        var menuWindow = new MenuWindow(_players);
-        menuWindow.Render();
-
-        _players[0].Color = ConsoleColor.Red;
-        _players[1].Color = ConsoleColor.Blue;
-
-        Board.SetPlayers(_players);
-
-        if(!menuWindow.ExitQ)
+        Players = new List<Player>
         {
-            EventLoggerWindow.Events.Enqueue("Начало игры");          
-        }
-    }
+            new Player() { Name = "Андрей", Avatar = "А", Color = ConsoleColor.Red },
+            new Player() { Name = "Никита", Avatar = "Н", Color = ConsoleColor.Green }
+        };
 
-    public void StartGame()
-    {
-        while( _isPlay )
+        /*var menuWindow = new MenuWindow();
+        menuWindow.Render();*/
+
+        Board.SetPlayers(Players);
+
+        EventLoggerWindow.Events.Enqueue("Начало игры");
+        while ( _isPlay )
         {
-            foreach( var player in _players)
+            foreach ( var player in Players)
             {
-                MakeStep(player);
+                player.MakeStep();
+                CheckGameStatus();
             }
 
         }
+        Console.WriteLine("Игра окончена");
     }
 
-    private void MakeStep(Player player)
+    public static void FinishGame()
     {
-        var GamePlayerMenu = new GameWindow(player);
-        GamePlayerMenu.Render();
+        _isPlay = false;
     }
 
-    private void CheckGameStatus()
+    private static void CheckGameStatus()
     {
-        
+        if(Players.Count == 1) 
+        {
+            _isPlay = false;
+            EventLoggerWindow.Events.Enqueue($"Игрок {Players[0].Name} одержал победу!");
+        }
     }
 }

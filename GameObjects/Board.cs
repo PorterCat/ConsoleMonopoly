@@ -11,7 +11,7 @@ public static class Board
         new PropertyField(new Property("Искитимская", 60) { Rent = 20, Index = 0}),
         new ChanceField() { Name = "? Шанс ?", Index = 1},
         new PropertyField(new Property("Единорожья", 60) { Rent = 20, Index = 2}),
-        new TaxField() { Name = "$ Налог $", Index = 3},
+        new TaxField(200) { Name = "$ Налог $", Index = 3},
         new PropertyField(new Property("Станция1", 200) { Rent = 20, Index = 4}),
         new PropertyField(new Property("test6", 100) { Rent = 20 , Index = 5}),
         new ChanceField() { Name = "? Шанс ?" , Index = 6},
@@ -45,7 +45,7 @@ public static class Board
         new PropertyField(new Property("Станция4", 200) { Rent = 20 , Index = 34}),
         new ChanceField() { Name = "? Шанс ?", Index = 35},
         new PropertyField(new Property("test29", 350) { Rent = 20, Index = 36}),
-        new TaxField() { Name = "$ Налог $", Index = 37},
+        new TaxField(150) { Name = "$ Налог $", Index = 37},
         new PropertyField(new Property("test30", 400) { Rent = 20, Index = 38})
     };
 
