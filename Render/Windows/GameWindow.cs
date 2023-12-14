@@ -152,8 +152,6 @@ public class GameWindow : IRenderable
         var result1 = Dice.Roll();
         var result2 = Dice.Roll();
 
-        result1 = result2 = 2;
-
         _player.Move(result1 + result2);
         
         string line = $"Игрок {_player.Name} бросает кубики. Выпало: {result1} и {result2}";

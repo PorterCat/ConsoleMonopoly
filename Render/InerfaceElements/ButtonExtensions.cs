@@ -69,9 +69,6 @@ public static class ButtonExtensions
                 case ConsoleKey.Enter:
                     buttons[selectedIndex].OnClick();
                     return;
-
-                case ConsoleKey.Escape:
-                    return;
             }
 
         }
