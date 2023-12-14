@@ -1,7 +1,4 @@
 ﻿using MonopolyGame.Controller;
-using MonopolyGame.Factory;
-using MonopolyGame.GameObjects;
-using MonopolyGame.Render.Windows;
 
 internal class Program
 {
@@ -21,6 +18,4 @@ internal class Program
 
         Console.ReadLine();
     }
-
-
 }

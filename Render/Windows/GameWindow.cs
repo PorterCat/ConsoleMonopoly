@@ -2,6 +2,8 @@
 using MonopolyGame.GameObjects.Fields;
 using MonopolyGame.Render.InerfaceElements;
 using System.Numerics;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace MonopolyGame.Render.Windows;
 
@@ -61,15 +63,19 @@ public class GameWindow : IRenderable
             finishButton.Click += Exit;
 
             _menuActions = new List<Button>();
-            Console.SetCursorPosition(0, 0);
-            Console.WriteLine($"Ходит игрок: {_player.Name}({_player.Avatar}) Баланс: {_player.Balance}");
             _boardWindow.Render();
             EventLoggerWindow.Render();
+
+
+            
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine($"Ходит игрок: {_player.Name}({_player.Avatar}) Баланс: {_player.Balance}");
+            
 
             if (_player.PrisonTerm > 0)
             {
                 Console.SetCursorPosition(0, 0);
-                Console.WriteLine($"Ходит игрок {_player.Name}. Вы в тюрьме ещё {_player.PrisonTerm} ходов");
+                Console.WriteLine($"Ходит игрок {_player.Name}. Вы в тюрьме ещё {_player.PrisonTerm} хода");
                 var jailMenu = new List<Button>();
                 var escapeButton = new Button()
                 {
@@ -98,10 +104,40 @@ public class GameWindow : IRenderable
             Console.Clear();
             while (_isInitilized)
             {
-                Console.SetCursorPosition(0, 0);
-                Console.WriteLine($"Ходит игрок: {_player.Name}({_player.Avatar}) Баланс: {_player.Balance}");
                 _boardWindow.Render();
                 EventLoggerWindow.Render();
+
+                if (_player.Balance < 0)
+                {
+                    Console.SetCursorPosition(0, 0);
+
+                    foreach (var group in _player.Properties)
+                    {
+                        if(group.Count > 0)
+                        {
+                            foreach(var prop in group)
+                            {
+                                prop.Owner = null;
+                                prop.IsPawned = false;
+                                prop.IsPossibleToUpgrade = false;
+                                while(prop.Level > 1)
+                                {
+                                    prop.Degrade();
+                                }
+                            }
+                        }
+                    }
+
+                    Console.WriteLine($"Игрок: {_player.Name}({_player.Avatar}) вы банкрот.");
+                    EventLoggerWindow.Record($"Игрок {_player.Name} обанкротился и выбывает из игры");
+                    Board.BoardFields[_player.Position].PlayersOnTheField.Remove(_player);
+                    _menuActions.Remove(listOfProperty);
+                    _menuActions.RenderWithDots((4, 2), 2);
+                    return;
+                }
+
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine($"Ходит игрок: {_player.Name}({_player.Avatar}) Баланс: {_player.Balance}");
                 _menuActions.RenderWithDots((4, 2), 2);
                 Console.Clear();
             }
@@ -115,6 +151,8 @@ public class GameWindow : IRenderable
     {
         var result1 = Dice.Roll();
         var result2 = Dice.Roll();
+
+        result1 = result2 = 2;
 
         _player.Move(result1 + result2);
         

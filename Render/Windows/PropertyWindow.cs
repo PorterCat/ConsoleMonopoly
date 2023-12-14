@@ -31,7 +31,9 @@ public class PropertyWindow : IRenderable
 
         pawnPropertyButton.Click += BuyBackPawn;
 
+        
         _buttons.Add(pawnPropertyButton);
+        
 
         if(property.IsPossibleToUpgrade && !(property.IsPawned) && property.Level < 6)
         {
@@ -102,10 +104,6 @@ public class PropertyWindow : IRenderable
         }
         else
         {
-            if(_buttons.Contains(pawnPropertyButton))
-            {
-                _buttons.Remove(pawnPropertyButton);
-            }
 
             if (_buttons.Contains(upgradeButton))
             {

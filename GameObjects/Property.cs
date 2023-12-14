@@ -1,4 +1,5 @@
 ﻿using MonopolyGame.Render.Windows;
+using System.Security.AccessControl;
 
 namespace MonopolyGame.GameObjects;
 
@@ -53,6 +54,7 @@ public class Property
         if(Level < 5)
         {
             Level++;
+            Price += UpgradeCost;
             Owner.Pay(UpgradeCost);
             Rent = 2 * Rent;
         }       
@@ -61,7 +63,7 @@ public class Property
     public void Degrade()
     {
         Level--;
-        Owner.Get(UpgradeCost/2);
+        Price -= UpgradeCost;
         Rent = Rent / 2;
     }
 }

@@ -25,12 +25,20 @@ public class Player
             _balance = value;
             if ( _balance < 0)
             {
-                PawnBuyProperty();
+
+                foreach (var group in Properties)
+                {
+                    if (group.Count > 0 && group.Any(c => c.IsPawned == false))
+                    {
+                        PawnBuyProperty();
+                        break;
+                    }
+                }               
+
                 if (_balance < 0)
                 {
-                    EventLoggerWindow.Record($"{Name} обанкротился и выбывает из игры");
                     GameController.Players.Remove(this);
-                }
+                }         
             }
         }
     }
@@ -79,7 +87,6 @@ public class Player
 
     public void TakeCardFromChanceDeck()
     {
-        ChanceDeck.SetPlayer(this);
         var textEvent = ChanceDeck.GetCard();
         EventLoggerWindow.Record($"{Name}: {textEvent}");
     }
@@ -126,7 +133,7 @@ public class Player
 
     public void Get(int profit)
     {
-        Balance -= profit;
+        Balance += profit;
     }
 
     public void Buy(Property property)
@@ -136,35 +143,15 @@ public class Player
         Properties[property.Group].Add(property);
     }
 
-    public void LostProperty(Property property)
-    {
-        property.Owner = null;
-        Properties[property.Group].Remove(property);
-    }
-
-
     public void IsPropertyRelatedToMonopolyGroup()
     {
         for(int i = 0; i < Properties.Count; i++)
         {
             if (Properties[i].Count == Properties[i].Capacity)
             {
-                var maxLevel = Properties[i].Max(x => x.Level);
-                int counter = 0;
                 foreach (var prop in Properties[i])
                 {
-                    if (prop.Level < maxLevel)
-                    {
-                        counter++;  
-                        prop.IsPossibleToUpgrade = true;
-                    }
-                }
-                if(counter == 0)
-                {
-                    foreach (var prop in Properties[i])
-                    {
-                        prop.IsPossibleToUpgrade = true;
-                    }
+                    prop.IsPossibleToUpgrade = true;                
                 }
             }
         }

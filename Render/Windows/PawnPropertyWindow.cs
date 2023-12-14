@@ -44,26 +44,21 @@ public class PawnPropertyWindow : IRenderable
                     {
                         var line = property.Name;
 
-                        if (property.IsPawned)
-                        {
-                            line += $" || Заложено. Выкуп: {property.Price}$";
-                        }
-                        else
+                        if (!property.IsPawned)
                         {
                             line += $" || Заложить за {(int)(property.Price * 0.7)} $";
+                            var button = new Button()
+                            {
+                                Name = line,
+                            };
+
+                            button.Click += (sender, e) =>
+                            {
+                                var n = new PawnPropertyEventArgs(property);
+                                PawnBuyProperty(sender, n);
+                            };
+                            _buttons.Add(button);
                         }
-
-                        var button = new Button()
-                        {
-                            Name = line,
-                        };
-
-                        button.Click += (sender, e) =>
-                        {
-                            var n = new PawnPropertyEventArgs(property);
-                            PawnBuyProperty(sender, n);
-                        };
-                        _buttons.Add(button);
                     }
                 }
             }
@@ -79,7 +74,7 @@ public class PawnPropertyWindow : IRenderable
             Console.SetCursorPosition(0, 0);
             Console.WriteLine($"Ходит игрок: {_player.Name}({_player.Avatar}) Баланс: {_player.Balance}");
             Console.SetCursorPosition(0, 2);
-            Console.WriteLine("  ==== Заложите/выкупите собственность: ====");
+            Console.WriteLine("  = У вас закончились деньги. Заложите собственность: =");
 
             _buttons.RenderWithDots((4, 4), 2);
         }
@@ -87,30 +82,11 @@ public class PawnPropertyWindow : IRenderable
     }
 
     private void PawnBuyProperty(object sender, PawnPropertyEventArgs property)
-    {
-        if(property.Property.IsPawned)
-        {
-            if(property.Property.Owner.Balance - property.Property.Price > 0)
-            {
-                property.Property.Owner.pawnedProperty.Remove(property.Property.Index);
-                property.Property.IsPawned = false;
-                property.Property.Owner.Balance -= property.Property.Price;
-                
-                EventLoggerWindow.Record($"Игрок {property.Property.Owner.Name} выкупил {property.Property.Name} обратно");
-            }
-            else
-            {
-                EventLoggerWindow.Record($"Недостаточно средств");
-            }
-        }
-        else
-        {
-            property.Property.IsPawned = true;
-            property.Property.Owner.pawnedProperty[property.Property.Index] = (property.Property, 10);
-            property.Property.Owner.Balance += (int)(property.Property.Price * 0.7);
-            EventLoggerWindow.Record($"Игрок {property.Property.Owner.Name} заложил {property.Property.Name}");
-        }
-
+    {       
+        property.Property.IsPawned = true;
+        property.Property.Owner.pawnedProperty[property.Property.Index] = (property.Property, 10);
+        property.Property.Owner.Balance += (int)(property.Property.Price * 0.7);
+        EventLoggerWindow.Record($"Игрок {property.Property.Owner.Name} заложил {property.Property.Name}");        
     }
 
     private void Exit(object sender, EventArgs e)

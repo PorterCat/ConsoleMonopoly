@@ -1,6 +1,6 @@
 ﻿using MonopolyGame.GameObjects;
+using MonopolyGame.GameObjects.Fields;
 using MonopolyGame.Render.Windows;
-using System.Xml.Linq;
 
 namespace MonopolyGame.Controller;
 
@@ -12,13 +12,6 @@ public static class GameController
 
     public static void StartGame()
     {
-
-        /*Players = new List<Player>
-        {
-            new Player() { Name = "Андрей", Avatar = "А", Color = ConsoleColor.Red,  },
-            new Player() { Name = "Никита", Avatar = "Н", Color = ConsoleColor.Green }
-        };*/
-
         var menuWindow = new MenuWindow();
         menuWindow.Render();
 
@@ -31,10 +24,17 @@ public static class GameController
             {
                 player.MakeStep();
                 CheckGameStatus();
+                if(!_isPlay)
+                {
+                    break;
+                }
             }
 
         }
-        Console.WriteLine("Игра окончена");
+        Console.Clear();
+        BoardWindow boardWindow = new BoardWindow();
+        boardWindow.Render();
+        EventLoggerWindow.Render();
     }
 
     public static void FinishGame()
@@ -48,6 +48,7 @@ public static class GameController
         {
             _isPlay = false;
             EventLoggerWindow.Record($"Игрок {Players[0].Name} одержал победу!");
+            EventLoggerWindow.Record($"Конец игры");
         }
     }
 }

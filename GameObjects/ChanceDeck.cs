@@ -4,7 +4,7 @@ namespace MonopolyGame.GameObjects;
 
 public static class ChanceDeck
 {
-    private static Player _player = GameController.Players.First();
+    private static Player _player = new Player();
 
     private static List<ChanceCard> _chanceCards = new List<ChanceCard>()
     {
