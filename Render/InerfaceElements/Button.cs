@@ -36,9 +36,4 @@ public class Button : IRenderable
     {
         Click?.Invoke(this, null);
     }
-
-    public void OnClick(Property property)
-    {
-        Click?.Invoke(this, new PawnPropertyEventArgs(property));
-    }
 }

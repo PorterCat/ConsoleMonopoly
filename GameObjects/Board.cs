@@ -1,6 +1,4 @@
 ﻿using MonopolyGame.GameObjects.Fields;
-using MonopolyGame.Render.Windows;
-using System.Xml.Linq;
 
 namespace MonopolyGame.GameObjects;
 
@@ -66,71 +64,5 @@ public static class Board
         }
 
         BoardFields[0]= new StartField() { Name = "Начало", Index = 0, PlayersOnTheField = list};
-
-        /*Groups = new List<List<PropertyField>>(8)
-        {
-            new List<PropertyField>
-            {
-                (PropertyField)BoardFields[5],
-                (PropertyField)BoardFields[15],
-                (PropertyField)BoardFields[25],
-                (PropertyField)BoardFields[35],
-            },
-            new List<PropertyField>
-            {
-                (PropertyField)BoardFields[1],
-                (PropertyField)BoardFields[3],
-            },
-            new List<PropertyField>
-            {
-                (PropertyField) BoardFields[6],
-                (PropertyField) BoardFields[8],
-                (PropertyField) BoardFields[9],
-            },
-            new List<PropertyField>
-            {
-                (PropertyField) BoardFields[11],
-                (PropertyField) BoardFields[13],
-                (PropertyField) BoardFields[14],
-            },
-            new List<PropertyField>
-            {
-                (PropertyField) BoardFields[16],
-                (PropertyField) BoardFields[18],
-                (PropertyField) BoardFields[19],
-            },
-            new List<PropertyField>
-            {
-                (PropertyField) BoardFields[21],
-                (PropertyField) BoardFields[23],
-                (PropertyField) BoardFields[24],
-            },
-            new List<PropertyField>
-            {
-                (PropertyField) BoardFields[26],
-                (PropertyField) BoardFields[27],
-                (PropertyField) BoardFields[29],
-            },
-            new List<PropertyField>
-            {
-                (PropertyField) BoardFields[31],
-                (PropertyField) BoardFields[32],
-                (PropertyField) BoardFields[34],
-            },
-            new List<PropertyField>
-            {
-                (PropertyField) BoardFields[37],
-                (PropertyField) BoardFields[39],
-            },
-        };*/
-
-        /*var boardField = (PropertyField)BoardFields[37];
-
-        players[0].Buy(boardField.Property);
-
-        boardField = (PropertyField)BoardFields[39];
-
-        players[0].Buy(boardField.Property);*/
-
     }
 }

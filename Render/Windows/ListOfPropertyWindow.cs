@@ -43,7 +43,7 @@ public class ListOfPropertyWindow : IRenderable
 
                         button.Click += (sender, e) =>
                         {
-                            var n = new PawnPropertyEventArgs(property);
+                            var n = new PropertyEventArgs(property);
                             ShowProperty(sender, n);
                         };
                         _buttons.Add(button);
@@ -66,7 +66,7 @@ public class ListOfPropertyWindow : IRenderable
         Console.Clear();
     }
 
-    public void ShowProperty(object sender, PawnPropertyEventArgs property)
+    public void ShowProperty(object sender, PropertyEventArgs property)
     {
         var propertWindow = new PropertyWindow(property.Property, _player);
         propertWindow.Render();

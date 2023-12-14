@@ -1,9 +1,7 @@
-﻿using MonopolyGame.GameObjects;
+﻿using MonopolyGame.Controller;
+using MonopolyGame.GameObjects;
 using MonopolyGame.GameObjects.Fields;
 using MonopolyGame.Render.InerfaceElements;
-using System.Numerics;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace MonopolyGame.Render.Windows;
 
@@ -75,7 +73,7 @@ public class GameWindow : IRenderable
             if (_player.PrisonTerm > 0)
             {
                 Console.SetCursorPosition(0, 0);
-                Console.WriteLine($"Ходит игрок {_player.Name}. Вы в тюрьме ещё {_player.PrisonTerm} хода");
+                Console.WriteLine($"Ходит игрок {_player.Name}. Вы в тюрьме ещё {_player.PrisonTerm + 1} хода");
                 var jailMenu = new List<Button>();
                 var escapeButton = new Button()
                 {

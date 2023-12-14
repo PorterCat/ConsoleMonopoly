@@ -25,19 +25,19 @@ public class MenuWindow : IRenderable
 
         button1.Click += (sender, e) =>
         {
-            var n = new PlayerAmountEventArgs(2);
+            var n = new IntEventArgs(2);
             InitCreatePlayerWindow(sender, n);
         };
 
         button2.Click += (sender, e) =>
         {
-            var n = new PlayerAmountEventArgs(3);
+            var n = new IntEventArgs(3);
             InitCreatePlayerWindow(sender, n);
         };
 
         button3.Click += (sender, e) =>
         {
-            var n = new PlayerAmountEventArgs(4);
+            var n = new IntEventArgs(4);
             InitCreatePlayerWindow(sender, n);
         };
 
@@ -59,7 +59,7 @@ public class MenuWindow : IRenderable
         Console.Clear();
     }
 
-    void InitCreatePlayerWindow(object sender, PlayerAmountEventArgs e)
+    void InitCreatePlayerWindow(object sender, IntEventArgs e)
     {
         Console.Clear();
         IFactory playerFactory = new PlayerFactory();

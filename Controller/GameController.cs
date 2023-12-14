@@ -16,7 +16,6 @@ public static class GameController
         menuWindow.Render();
 
         Board.SetPlayers(Players);
-
         EventLoggerWindow.Record("Начало игры");
         while ( _isPlay )
         {
@@ -37,11 +36,6 @@ public static class GameController
         EventLoggerWindow.Render();
     }
 
-    public static void FinishGame()
-    {
-        _isPlay = false;
-    }
-
     private static void CheckGameStatus()
     {
         if(Players.Count == 1) 
@@ -50,5 +44,10 @@ public static class GameController
             EventLoggerWindow.Record($"Игрок {Players[0].Name} одержал победу!");
             EventLoggerWindow.Record($"Конец игры");
         }
+    }
+
+    public static void FinishGame()
+    {
+        _isPlay = false;
     }
 }

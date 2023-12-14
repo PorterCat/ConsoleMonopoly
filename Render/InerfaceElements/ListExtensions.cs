@@ -1,6 +1,6 @@
 ﻿namespace MonopolyGame.Render.InerfaceElements;
 
-public static class ButtonExtensions
+public static class ListExtensions
 {
     public static void RenderWithDots(this List<Button> buttons, (int x, int y) Position, int interval)
     {

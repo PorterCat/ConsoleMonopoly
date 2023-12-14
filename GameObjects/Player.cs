@@ -1,5 +1,4 @@
 ﻿using MonopolyGame.Controller;
-using MonopolyGame.GameObjects.Fields;
 using MonopolyGame.Render.Windows;
 
 namespace MonopolyGame.GameObjects;
@@ -9,12 +8,11 @@ public class Player
     private int _poistion = 0;
     private int _balance = 500;
 
-    public ConsoleColor Color = ConsoleColor.White;
+    public ConsoleColor Color { get; set; }
 
     public Dictionary<int, (Property, int)> pawnedProperty = new(40);
 
     public int Steps { get; set; }
-    public int Index { get; set; }
     public string Name { get; set; }
     public string Avatar { get; set; }
     public int Balance

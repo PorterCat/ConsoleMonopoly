@@ -1,7 +1,4 @@
-﻿using MonopolyGame.Render.Windows;
-using System.Security.AccessControl;
-
-namespace MonopolyGame.GameObjects;
+﻿namespace MonopolyGame.GameObjects;
 
 public class Property
 {

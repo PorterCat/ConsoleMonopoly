@@ -1,6 +1,4 @@
-﻿using MonopolyGame.Controller;
-
-namespace MonopolyGame.GameObjects;
+﻿namespace MonopolyGame.GameObjects;
 
 public static class ChanceDeck
 {

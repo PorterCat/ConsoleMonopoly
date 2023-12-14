@@ -2,11 +2,11 @@
 
 namespace MonopolyGame.Render.EventArgsExtension;
 
-public class PawnPropertyEventArgs : EventArgs
+public class PropertyEventArgs : EventArgs
 {
     public Property Property { get; set; }
 
-    public PawnPropertyEventArgs(Property property)
+    public PropertyEventArgs(Property property)
     {
         Property = property;
     }

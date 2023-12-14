@@ -1,10 +1,10 @@
 ﻿namespace MonopolyGame.Render.EventArgsExtension;
 
-public class PlayerAmountEventArgs : EventArgs
+public class IntEventArgs : EventArgs
 {
     public int Amount { get; set; }
 
-    public PlayerAmountEventArgs(int n)
+    public IntEventArgs(int n)
     {
         Amount = n;
     }

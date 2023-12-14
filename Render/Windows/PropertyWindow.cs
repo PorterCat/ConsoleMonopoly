@@ -56,6 +56,11 @@ public class PropertyWindow : IRenderable
 
         while(_isInitilized)
         {
+            if(_buttons.Count < 1)
+            {
+                return;
+            }
+
             boardWindow.Render();
             EventLoggerWindow.Render();
             Console.SetCursorPosition(0, 0);

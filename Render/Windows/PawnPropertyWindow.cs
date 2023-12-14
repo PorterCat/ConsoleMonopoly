@@ -36,7 +36,7 @@ public class PawnPropertyWindow : IRenderable
                 _buttons.Clear();
             }
             Console.SetCursorPosition(4, 2);
-            if (_properties != null)
+            if (_properties.Count > 0)
             {
                 foreach(var propertyGroups in _properties)
                 {
@@ -54,7 +54,7 @@ public class PawnPropertyWindow : IRenderable
 
                             button.Click += (sender, e) =>
                             {
-                                var n = new PawnPropertyEventArgs(property);
+                                var n = new PropertyEventArgs(property);
                                 PawnBuyProperty(sender, n);
                             };
                             _buttons.Add(button);
@@ -62,14 +62,15 @@ public class PawnPropertyWindow : IRenderable
                     }
                 }
             }
-
-            var buttonExit = new Button()
+            else
             {
-                Name = "Готово",
-            };
-            buttonExit.Click += Exit;
-            _buttons.Add(buttonExit);
-            _buttons[0].Selected = true;
+                return;
+            }
+
+            if(_buttons.Count == 0)
+            {
+                return;
+            }
 
             Console.SetCursorPosition(0, 0);
             Console.WriteLine($"Ходит игрок: {_player.Name}({_player.Avatar}) Баланс: {_player.Balance}");
@@ -81,7 +82,7 @@ public class PawnPropertyWindow : IRenderable
         Console.Clear();
     }
 
-    private void PawnBuyProperty(object sender, PawnPropertyEventArgs property)
+    private void PawnBuyProperty(object sender, PropertyEventArgs property)
     {       
         property.Property.IsPawned = true;
         property.Property.Owner.pawnedProperty[property.Property.Index] = (property.Property, 10);

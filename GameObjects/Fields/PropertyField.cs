@@ -28,7 +28,7 @@ public class PropertyField : BoardField
 
         if (Property.Owner != player)
         {
-            if (Property.Owner.pawnedProperty.Count == 0)
+            if (!Property.IsPawned)
             {
                 player.PayRent(Property.Rent, Property.Owner);
                 EventLoggerWindow.Record($"Игрок {player.Name} попал на поле игрока {Property.Owner.Name}. " +
