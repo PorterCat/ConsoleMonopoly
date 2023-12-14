@@ -1,4 +1,6 @@
-﻿namespace MonopolyGame.GameObjects.Fields;
+﻿using MonopolyGame.Render.Windows;
+
+namespace MonopolyGame.GameObjects.Fields;
 
 public class TaxField : BoardField
 {
@@ -9,15 +11,10 @@ public class TaxField : BoardField
         _taxAmount = taxAmout;
     }
 
-    public void PayTax(Player player)
+    public override bool HandlePlayerOnField(Player player)
     {
-        player.Balance -= _taxAmount;
-    }
-
-    public override void Render((int x, int y) Position)
-    {
-        base.Render(Position);
-        Console.SetCursorPosition(Position.x + 1, Position.y + 2);
-        Console.Write($"{_taxAmount}$");
+        EventLoggerWindow.Record($"Игрок {player.Name} платит налог {_taxAmount}$");
+        player.Pay(_taxAmount);
+        return base.HandlePlayerOnField(player);
     }
 }

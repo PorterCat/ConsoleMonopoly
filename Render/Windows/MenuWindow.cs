@@ -1,6 +1,6 @@
 ﻿using MonopolyGame.Controller;
 using MonopolyGame.Factory;
-using MonopolyGame.GameObjects;
+using MonopolyGame.Render.EventArgsExtension;
 using MonopolyGame.Render.InerfaceElements;
 
 namespace MonopolyGame.Render.Windows;
@@ -12,7 +12,7 @@ public class MenuWindow : IRenderable
 
     public MenuWindow()
     {
-        _menuButtons = new List<Button>(2);
+        _menuButtons = new List<Button>(4);
         var button1 = new Button();
         var button2 = new Button();
         var button3 = new Button();
@@ -23,9 +23,24 @@ public class MenuWindow : IRenderable
         button3.Name = "Начать игру на 4";
         button4.Name = "Выход";
 
-        button1.Click += InitCreatePlayerWindow;
-        button2.Click += InitCreatePlayerWindow;
-        button3.Click += InitCreatePlayerWindow;
+        button1.Click += (sender, e) =>
+        {
+            var n = new PlayerAmountEventArgs(2);
+            InitCreatePlayerWindow(sender, n);
+        };
+
+        button2.Click += (sender, e) =>
+        {
+            var n = new PlayerAmountEventArgs(3);
+            InitCreatePlayerWindow(sender, n);
+        };
+
+        button3.Click += (sender, e) =>
+        {
+            var n = new PlayerAmountEventArgs(4);
+            InitCreatePlayerWindow(sender, n);
+        };
+
         button4.Click += Exit;
 
         _menuButtons.Add(button1);
@@ -44,7 +59,7 @@ public class MenuWindow : IRenderable
         Console.Clear();
     }
 
-    void InitCreatePlayerWindow(object sender, EventArgs e)
+    void InitCreatePlayerWindow(object sender, PlayerAmountEventArgs e)
     {
         Console.Clear();
         IFactory playerFactory = new PlayerFactory();
@@ -57,7 +72,7 @@ public class MenuWindow : IRenderable
             ConsoleColor.Yellow,
         };
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < e.Amount; i++)
         {
             Console.SetCursorPosition(0, 10);
             Console.WriteLine($"Создайте {i+1}-ого игрока");

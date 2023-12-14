@@ -2,8 +2,9 @@
 
 public class ChanceField : BoardField
 {
-    public void TakeCard(Player player)
+    public override bool HandlePlayerOnField(Player player)
     {
-
+        player.TakeCardFromChanceDeck();
+        return base.HandlePlayerOnField(player);
     }
 }

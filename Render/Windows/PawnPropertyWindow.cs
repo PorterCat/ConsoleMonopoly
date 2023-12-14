@@ -8,11 +8,11 @@ public class PawnPropertyWindow : IRenderable
 {
     private bool _isInitilized = true;
 
-    private List<Property>? _properties;
+    private List<List<Property>>? _properties;
     private List<Button> _buttons = new List<Button>();
     private Player _player;
 
-    public PawnPropertyWindow(Player player, List<Property> properties)
+    public PawnPropertyWindow(Player player, List<List<Property>> properties)
     {
         _player = player;
         if (properties != null)
@@ -38,30 +38,33 @@ public class PawnPropertyWindow : IRenderable
             Console.SetCursorPosition(4, 2);
             if (_properties != null)
             {
-                foreach (Property property in _properties)
+                foreach(var propertyGroups in _properties)
                 {
-                    var line = property.Name;
-
-                    if (property.IsPawned)
+                    foreach(var property in propertyGroups)
                     {
-                        line += $" || Заложено. Выкуп: {property.Price}$";
+                        var line = property.Name;
+
+                        if (property.IsPawned)
+                        {
+                            line += $" || Заложено. Выкуп: {property.Price}$";
+                        }
+                        else
+                        {
+                            line += $" || Заложить за {(int)(property.Price * 0.7)} $";
+                        }
+
+                        var button = new Button()
+                        {
+                            Name = line,
+                        };
+
+                        button.Click += (sender, e) =>
+                        {
+                            var n = new PawnPropertyEventArgs(property);
+                            PawnBuyProperty(sender, n);
+                        };
+                        _buttons.Add(button);
                     }
-                    else
-                    {
-                        line += $" || Заложить за {(int)(property.Price * 0.7)} $";
-                    }
-
-                    var button = new Button()
-                    {
-                        Name = line,
-                    };
-
-                    button.Click += (sender, e) =>
-                    {
-                        var n = new PawnPropertyEventArgs(property);
-                        PawnBuyProperty(sender, n);
-                    };
-                    _buttons.Add(button);
                 }
             }
 
@@ -93,11 +96,11 @@ public class PawnPropertyWindow : IRenderable
                 property.Property.IsPawned = false;
                 property.Property.Owner.Balance -= property.Property.Price;
                 
-                EventLoggerWindow.Events.Enqueue($"Игрок {property.Property.Owner.Name} выкупил {property.Property.Name} обратно");
+                EventLoggerWindow.Record($"Игрок {property.Property.Owner.Name} выкупил {property.Property.Name} обратно");
             }
             else
             {
-                EventLoggerWindow.Events.Enqueue($"Недостаточно средств");
+                EventLoggerWindow.Record($"Недостаточно средств");
             }
         }
         else
@@ -105,7 +108,7 @@ public class PawnPropertyWindow : IRenderable
             property.Property.IsPawned = true;
             property.Property.Owner.pawnedProperty[property.Property.Index] = (property.Property, 10);
             property.Property.Owner.Balance += (int)(property.Property.Price * 0.7);
-            EventLoggerWindow.Events.Enqueue($"Игрок {property.Property.Owner.Name} заложил {property.Property.Name}");
+            EventLoggerWindow.Record($"Игрок {property.Property.Owner.Name} заложил {property.Property.Name}");
         }
 
     }

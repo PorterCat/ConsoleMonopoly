@@ -34,9 +34,16 @@ public static class ButtonExtensions
             buttons[selectedIndex].Selected = true;
             foreach (var button in buttons)
             {
-                button.SetPosition(pointer.x, pointer.y);
-                pointer.y += interval;
-                button.Render();
+                if (button != null)
+                {
+                    button.SetPosition(pointer.x, pointer.y);
+                    pointer.y += interval;
+                    button.Render();
+                }
+                else
+                {
+                    break;
+                }
             }
 
             switch (Console.ReadKey(true).Key)

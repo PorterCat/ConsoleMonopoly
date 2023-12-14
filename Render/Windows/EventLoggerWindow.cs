@@ -3,20 +3,25 @@
 public static class EventLoggerWindow
 {
     public const int N = 33;
-    public static Queue<string> Events = new Queue<string>(N);
+    private static Queue<string> _events = new Queue<string>(N);
     
+    public static void Record(string line)
+    {
+        _events.Enqueue(line);
+    }
+
     public static void Render()
     {
-        while(Events.Count > 33)
+        while(_events.Count > 33)
         { 
-            Events.Dequeue();
+            _events.Dequeue();
         }
 
         (int x, int y) pointer = (75, 6);
         Console.SetCursorPosition(pointer.x, pointer.y);
         Console.Write(">");
         pointer.x += 3;
-        var stack = new Stack<string>(Events);
+        var stack = new Stack<string>(_events);
 
         while(stack.Count > 0) 
         {

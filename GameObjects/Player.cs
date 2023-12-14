@@ -1,4 +1,5 @@
-﻿using MonopolyGame.GameObjects.Fields;
+﻿using MonopolyGame.Controller;
+using MonopolyGame.GameObjects.Fields;
 using MonopolyGame.Render.Windows;
 
 namespace MonopolyGame.GameObjects;
@@ -11,7 +12,6 @@ public class Player
     public ConsoleColor Color = ConsoleColor.White;
 
     public Dictionary<int, (Property, int)> pawnedProperty = new(40);
-
 
     public int Steps { get; set; }
     public int Index { get; set; }
@@ -26,6 +26,11 @@ public class Player
             if ( _balance < 0)
             {
                 PawnBuyProperty();
+                if (_balance < 0)
+                {
+                    EventLoggerWindow.Record($"{Name} обанкротился и выбывает из игры");
+                    GameController.Players.Remove(this);
+                }
             }
         }
     }
@@ -38,7 +43,7 @@ public class Player
             {
                 _poistion = value - 40;
                 Balance += 200;
-                EventLoggerWindow.Events.Enqueue($"{Name} прошёл поле и получает 200$");
+                EventLoggerWindow.Record($"{Name} прошёл поле и получает 200$");
             }     
             else
             {
@@ -46,20 +51,37 @@ public class Player
             }    
         }
     }
-    public List<Property>? Properties { get; set; }
+    public List<List<Property>> Properties { get; set; }
     public int PrisonTerm { get; set; }
 
     public Player()
     {
         PrisonTerm = 0;
         Balance = 500;
-        Properties = new List<Property>();
+        Properties = new List<List<Property>>(8)
+        { 
+            new List<Property>(2),
+            new List<Property>(3),
+            new List<Property>(3),
+            new List<Property>(3),
+            new List<Property>(3),
+            new List<Property>(3),
+            new List<Property>(3),
+            new List<Property>(2),
+        };
     }
 
     public void MakeStep()
     {
         var GamePlayerMenu = new GameWindow(this);
         GamePlayerMenu.Render();
+    }
+
+    public void TakeCardFromChanceDeck()
+    {
+        ChanceDeck.SetPlayer(this);
+        var textEvent = ChanceDeck.GetCard();
+        EventLoggerWindow.Record($"{Name}: {textEvent}");
     }
 
     public void ReducingTerm()
@@ -72,7 +94,7 @@ public class Player
                 pawnedProperty[key] = (value.Item1, value.Item2 - 1);
                 if (value.Item2 == 0)
                 {
-                    EventLoggerWindow.Events.Enqueue($"Игрок {Name} не успел выкупить {value.Item1.Name}. Теперь можно ее купить");
+                    EventLoggerWindow.Record($"Игрок {Name} не успел выкупить {value.Item1.Name}. Теперь можно ее купить");
                     value.Item1.IsPawned = false;
                     value.Item1.Owner = null;
                     pawnedProperty.Remove(key);
@@ -90,10 +112,11 @@ public class Player
 
     public void SendToJail()
     {
-        Board.BoardFields[_poistion].PlayersOnTheField.Remove(this);
-        _poistion = 10;
+        Board.BoardFields[Position].PlayersOnTheField.Remove(this);
+        Position = 10;
         PrisonTerm = 3;
-        Board.BoardFields[_poistion].PlayersOnTheField.Add(this);
+        Steps = 0;
+        Board.BoardFields[Position].PlayersOnTheField.Add(this);
     }
 
     public void Pay(int loss)
@@ -101,17 +124,56 @@ public class Player
         Balance -= loss;
     }
 
+    public void Get(int profit)
+    {
+        Balance -= profit;
+    }
+
     public void Buy(Property property)
     {    
         Balance -= property.Price;
         property.Owner = this;
-        Properties.Add(property);
+        Properties[property.Group].Add(property);
     }
 
-    public void PayRent(int amount, Player player)
+    public void LostProperty(Property property)
+    {
+        property.Owner = null;
+        Properties[property.Group].Remove(property);
+    }
+
+
+    public void IsPropertyRelatedToMonopolyGroup()
+    {
+        for(int i = 0; i < Properties.Count; i++)
+        {
+            if (Properties[i].Count == Properties[i].Capacity)
+            {
+                var maxLevel = Properties[i].Max(x => x.Level);
+                int counter = 0;
+                foreach (var prop in Properties[i])
+                {
+                    if (prop.Level < maxLevel)
+                    {
+                        counter++;  
+                        prop.IsPossibleToUpgrade = true;
+                    }
+                }
+                if(counter == 0)
+                {
+                    foreach (var prop in Properties[i])
+                    {
+                        prop.IsPossibleToUpgrade = true;
+                    }
+                }
+            }
+        }
+    }
+
+    public void PayRent(int amount, Player toPlayer)
     {      
-        Balance -= amount;
-        player.Balance += amount;
+        Pay(amount);
+        toPlayer.Balance += amount;
     }
 
     public void PawnBuyProperty()

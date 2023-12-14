@@ -7,7 +7,7 @@ public class Button : IRenderable
 {
     public string? Name { get; set; }
     public (int x, int y) Position { get; set; }
-    public event EventHandler<PawnPropertyEventArgs>? Click;
+    public event EventHandler<EventArgs>? Click;
     public bool Selected = false;
 
     public IRenderable SetPosition(int x, int y)

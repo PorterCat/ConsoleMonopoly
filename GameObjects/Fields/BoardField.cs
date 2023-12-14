@@ -2,6 +2,8 @@
 
 public abstract class BoardField
 {
+    public bool IsBuyable = false; 
+
     public int Index { get; set; }
     public string Name { get; set; }
     public List<Player>? PlayersOnTheField = new List<Player>();
@@ -57,5 +59,10 @@ public abstract class BoardField
             }
             Console.ResetColor();
         }
+    }
+
+    public virtual bool HandlePlayerOnField(Player player)
+    {
+        return IsBuyable;
     }
 }

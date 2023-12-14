@@ -6,25 +6,25 @@ namespace MonopolyGame.Controller;
 
 public static class GameController
 {
-    public static List<Player> Players;
+    public static List<Player> Players = new List<Player>();
 
     private static bool _isPlay = true;
 
     public static void StartGame()
     {
 
-        Players = new List<Player>
+        /*Players = new List<Player>
         {
-            new Player() { Name = "Андрей", Avatar = "А", Color = ConsoleColor.Red },
+            new Player() { Name = "Андрей", Avatar = "А", Color = ConsoleColor.Red,  },
             new Player() { Name = "Никита", Avatar = "Н", Color = ConsoleColor.Green }
-        };
+        };*/
 
-        /*var menuWindow = new MenuWindow();
-        menuWindow.Render();*/
+        var menuWindow = new MenuWindow();
+        menuWindow.Render();
 
         Board.SetPlayers(Players);
 
-        EventLoggerWindow.Events.Enqueue("Начало игры");
+        EventLoggerWindow.Record("Начало игры");
         while ( _isPlay )
         {
             foreach ( var player in Players)
@@ -47,7 +47,7 @@ public static class GameController
         if(Players.Count == 1) 
         {
             _isPlay = false;
-            EventLoggerWindow.Events.Enqueue($"Игрок {Players[0].Name} одержал победу!");
+            EventLoggerWindow.Record($"Игрок {Players[0].Name} одержал победу!");
         }
     }
 }

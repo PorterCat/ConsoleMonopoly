@@ -1,6 +1,12 @@
-﻿namespace MonopolyGame.GameObjects.Fields;
+﻿using MonopolyGame.Render.Windows;
 
-internal class FreeParkingField : BoardField
+namespace MonopolyGame.GameObjects.Fields;
+
+public class FreeParkingField : BoardField
 {
-
+    public override bool HandlePlayerOnField(Player player)
+    {
+        EventLoggerWindow.Record($"Игрок {player.Name} попал на бесплатную парковку. Отдохните :)");
+        return base.HandlePlayerOnField(player);
+    }
 }

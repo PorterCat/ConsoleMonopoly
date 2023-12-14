@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using MonopolyGame.Render.Windows;
 
 namespace MonopolyGame.GameObjects.Fields;
 
@@ -11,6 +11,40 @@ public class PropertyField : BoardField
         Property = property;
         Name = property.Name;
         Index = property.Index;
+        IsBuyable = true;
+    }
+
+    public override bool HandlePlayerOnField(Player player)
+    {
+        if(Property.Owner != null)
+        {
+            IsBuyable = false;
+        }
+        else
+        {
+            IsBuyable = true;
+            return base.HandlePlayerOnField(player);
+        }
+
+        if (Property.Owner != player)
+        {
+            if (Property.Owner.pawnedProperty.Count == 0)
+            {
+                player.PayRent(Property.Rent, Property.Owner);
+                EventLoggerWindow.Record($"Игрок {player.Name} попал на поле игрока {Property.Owner.Name}. " +
+                    $"Плата: {Property.Rent}$");
+            }
+            else
+            {
+                EventLoggerWindow.Record($"Игрок {player.Name} попал на поле игрока {Property.Owner.Name}. Но оно заложено");
+            }
+        }
+        else if (Property.Owner == player)
+        {
+            EventLoggerWindow.Record($"Игрок {player.Name} попал на своё поле.");
+        }
+        
+        return base.HandlePlayerOnField(player);
     }
 
     public override void Render((int x, int y) Position)
