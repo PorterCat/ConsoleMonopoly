@@ -61,6 +61,10 @@ public class PropertyField : BoardField
         Console.Write(Name);
         Console.ResetColor();
 
+        Console.SetCursorPosition(Position.x + 1, Position.y + 3);
+        Console.WriteLine($"({Property.Group + 1})");
+        Console.ResetColor();
+
         Console.SetCursorPosition(Position.x + 1, Position.y + 2);
 
         if( Property.Owner != null ) 
@@ -79,7 +83,7 @@ public class PropertyField : BoardField
             }
             Console.ForegroundColor = Property.Owner.Color;
             Console.SetCursorPosition(Position.x + 1, Position.y + 3);
-            Console.WriteLine($"({Property.Owner.Avatar})");
+            Console.WriteLine($"({Property.Group + 1})");
             Console.ResetColor();
         }
         else

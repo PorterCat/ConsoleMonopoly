@@ -40,7 +40,7 @@ public static class GameController
     {
         if(Players.Count == 1) 
         {
-            _isPlay = false;
+            FinishGame();
             EventLoggerWindow.Record($"Игрок {Players[0].Name} одержал победу!");
             EventLoggerWindow.Record($"Конец игры");
         }
